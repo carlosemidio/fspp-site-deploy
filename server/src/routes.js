@@ -1,7 +1,10 @@
-const routes = require('express').Router();
+const express = require("express");
 
-routes.get('/', (req, res ) => {
-    return res.json({hello: 'World'});
-});
+const routes = express.Router();
+
+const UserController = require('./app/controllers/UserController');
+
+routes.get('/users', UserController.index);
+routes.post('/users', UserController.store);
 
 module.exports = routes;
