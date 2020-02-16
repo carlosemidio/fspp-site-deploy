@@ -111,7 +111,7 @@ describe('Authentication', () => {
         });
         
         const response = await request(app)
-            .post('/users')
+            .put(`/users/99999999`)
             .set('Authorization', `Bearer ${user.generateToken()}`)
             .send({
                 name: 'test1', 
