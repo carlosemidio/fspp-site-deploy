@@ -8,7 +8,9 @@ const UserController = require('./app/controllers/UserController');
 const SessionController = require('./app/controllers/SessionController');
 
 routes.get('/users', UserController.index);
+routes.get('/users/:id', UserController.view);
 routes.post('/users', UserController.store);
+routes.put('/users/:id', UserController.update);
 
 routes.post('/sessions', SessionController.store);
 
