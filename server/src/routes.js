@@ -1,8 +1,12 @@
 const express = require("express");
 
+const cors = require('cors');
+
 const routes = express.Router();
 
-const authMiddleware = require('./app/middleware/auth')
+routes.use(cors());
+
+const authMiddleware = require('./app/middleware/auth');
 
 const UserController = require('./app/controllers/UserController');
 const SessionController = require('./app/controllers/SessionController');
