@@ -42,5 +42,17 @@ module.exports = {
         } catch (err) {
             return res.status(401).json({ err, email })
         }
+    },
+
+    async destroy(req, res) {
+        const { name, email, password } = req.body;
+
+        try {
+            const user = await User.findOne({ where: { id: req.params.id } });
+            await user.destroy();
+            return res.json(user);
+        } catch (err) {
+            return res.status(401).json({ err, email })
+        }
     }
 };

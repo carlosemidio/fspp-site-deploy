@@ -19,8 +19,8 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
+import AnnouncementIcon from '@material-ui/icons/Announcement';
 
 const drawerWidth = 240;
 
@@ -120,7 +120,7 @@ export default function App(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Mini variant drawer
+            FSPP Sistema de gestão
           </Typography>
         </Toolbar>
       </AppBar>
@@ -155,12 +155,19 @@ export default function App(props) {
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+          <Link to="/noticias">
+            <ListItem button key="Notícias">
+              <ListItemIcon><AnnouncementIcon /></ListItemIcon>
+              <ListItemText primary="Notícias" />
             </ListItem>
-          ))}
+          </Link>
+
+          <Link to="/arquivos">
+            <ListItem button key="Arquivos">
+              <ListItemIcon><InsertDriveFileIcon /></ListItemIcon>
+              <ListItemText primary="Arquivos" />
+            </ListItem>
+          </Link>
         </List>
       </Drawer>
       <main className={classes.content}>

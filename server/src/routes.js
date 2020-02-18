@@ -19,6 +19,7 @@ routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.view);
 routes.post('/users', UserController.store);
 routes.put('/users/:id', UserController.update);
+routes.delete('/users/:id', UserController.destroy);
 
 routes.get('/dashboard', (req, res) => {
     return res.status(200).send();
