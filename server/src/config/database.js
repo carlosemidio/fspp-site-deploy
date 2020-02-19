@@ -9,7 +9,7 @@ module.exports = {
     database: process.env.DB_NAME,
     dialect:  process.env.DB_DIALECT || 'mariadb',
     storage: './__tests__/database.sqlite',
-    operatorsAliases: false,
+    operatorsAliases: 1,
     logging: false,
     define: {
         timestamps: true,
