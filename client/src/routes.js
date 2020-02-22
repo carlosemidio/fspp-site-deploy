@@ -6,6 +6,7 @@ import LogOut from './pages/logout/index';
 import Dashboard from './pages/dashboard/index';
 import User from './pages/users/index';
 import News from './pages/news/index';
+import NewsEdit from './pages/news/edit';
 import File from './pages/files/index';
 import App from './App';
 
@@ -29,7 +30,7 @@ const Routes = () => (
       <PrivateRoute path="/usuarios" component={() => <App page={<User/>}/>} />
       <PrivateRoute path="/usuarios/:id" component={() => <App page={<User/>}/>} />
       <PrivateRoute path="/noticias" component={() => <App page={<News/>}/>} />
-      <PrivateRoute path="/noticias/:id" component={() => <App page={<News/>}/>} />
+      <PrivateRoute path="/noticia/:id?" component={() => <App page={<NewsEdit/>}/>} />
       <PrivateRoute path="/arquivos" component={() => <App page={<File/>}/>} />
 
       <Route exact path="/" component={() => <Login/>} />

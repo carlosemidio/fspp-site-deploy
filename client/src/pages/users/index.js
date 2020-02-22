@@ -6,12 +6,16 @@ import {
   Fab,
   Paper,
   List,
+  IconButton,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
 } from '@material-ui/core';
-import { Add as AddIcon } from '@material-ui/icons';
+import { Delete as DeleteIcon, Add as AddIcon } from '@material-ui/icons';
 import { find, orderBy } from 'lodash';
 import { compose } from 'recompose';
+import moment from 'moment';
 
-import UserItem from '../../components/UserItem';
 import UserEditor from '../../components/UserEditor';
 import ErrorSnackbar from '../../components/ErrorSnackbar';
 import api from "../../services/api";
@@ -88,7 +92,17 @@ class UsersManager extends Component {
           <Paper elevation={1} className={classes.users}>
             <List>
               {orderBy(this.state.users, ['updatedAt', 'name'], ['desc', 'asc']).map(user => (
-                <UserItem user={user} />
+                <ListItem key={user.id} button component={Link} to={`/usuarios/${user.id}`}>
+                  <ListItemText
+                    primary={user.name}
+                    secondary={user.updatedAt && `Updated ${moment(user.updatedAt).fromNow()}`}
+                  />
+                  <ListItemSecondaryAction>
+                    <IconButton onClick={() => this.deleteUser(user)} color="inherit">
+                      <DeleteIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
               ))}
             </List>
           </Paper>

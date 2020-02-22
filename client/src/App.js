@@ -1,7 +1,5 @@
-import Routes from "./routes";
-
 import React from 'react';
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -145,8 +143,8 @@ export default function App(props) {
         <Divider />
         <List>
           {['Usuários'].map((text, index) => (
-            <Link to="/usuarios">
-              <ListItem button key={text}>
+            <Link to="/usuarios" key={index}>
+              <ListItem button>
                 <ListItemIcon><PeopleIcon /></ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>

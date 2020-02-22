@@ -1,56 +1,79 @@
 const { News } = require('../models');
 
+const multer = require('multer');
+const path = require('path');
+
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/news/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now()+'-'+file.originalname);
+  }
+});
+
+const upload = multer({ storage });
+
 module.exports = {
 
-    async index(req, res ){
-        const news =  await News.findAll();
+  async index(req, res ){
+    const news =  await News.findAll();
 
-        return res.json(news);
-    },
+    return res.json(news);
+  },
 
-    async view(req, res ){
-        const news =  await News.findOne({ where: { id: req.params.id } });
+  async view(req, res ){
+    const news =  await News.findOne({ where: { id: req.params.id } });
 
-        if (!news) {
-            return res.status(401).json({ message: 'New not found' });
-        }
-
-        return res.json(news);
-    },
-
-    async store(req, res) {
-        const { title, content, image } = req.body;
-
-        try {
-            const news = await News.create({ title, content, image });
-            return res.json(news);
-        } catch (err) {
-            return res.status(401).json({ err, title })
-        }
-    },
-
-    async update(req, res) {
-        const { title, content, image } = req.body;
-
-        try {
-            const news = await News.findOne({ where: { id: req.params.id } });
-            news.title = title;
-            news.content = content;
-            news.image = image;
-            await news.save({ fields: ['title', 'content', 'image'] });
-            return res.json(news);
-        } catch (err) {
-            return res.status(401).json({ err, title })
-        }
-    },
-
-    async destroy(req, res) {
-        try {
-            const news = await News.findOne({ where: { id: req.params.id } });
-            await news.destroy();
-            return res.json(news);
-        } catch (err) {
-            return res.status(401).json({ err })
-        }
+    if (!news) {
+      return res.status(401).json({ message: 'New not found' });
     }
+
+    return res.json(news);
+  },
+
+  async store(req, res) {
+    upload.single('image')(req, res, async () => { 
+      const { title, content } = req.body;
+
+      const image = req.file.filename;
+
+      try {
+        const news = await News.create({ title, content, image });
+        return res.json(news);
+      } catch (err) {
+        return res.status(401).json({ err, title })
+      }
+    });
+  },
+
+  async update(req, res) {
+    upload.single('image')(req, res, async () => { 
+      const { title, content } = req.body;
+
+      const image = req.file.filename;
+
+      try {
+        const news = await News.findOne({ where: { id: req.params.id } });
+        news.title = title;
+        news.content = content;
+        news.image = image;
+        await news.save({ fields: ['title', 'content', 'image'] });
+        return res.json(news);
+      } catch (err) {
+          return res.status(401).json({ err, title })
+      }
+    });
+  },
+
+  async destroy(req, res) {
+    try {
+      const news = await News.findOne({ where: { id: req.params.id } });
+      await news.destroy();
+      return res.json(news);
+    } catch (err) {
+      return res.status(401).json({ err })
+    }
+  }
 };
