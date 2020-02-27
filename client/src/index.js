@@ -1,14 +1,20 @@
-import React from 'react'
-import { render } from 'react-dom'
-import { BrowserRouter, Switch } from "react-router-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 
-import Routes from './routes'
+import { Component } from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Appbar from "./components/Appbar";
 
-render(
-  <BrowserRouter>
-    <Switch>
-      <Routes />
-    </Switch>
-  </BrowserRouter>,
-  document.querySelector('#root')
-)
+class App extends Component {
+  render() {
+    return (
+      <React.Fragment>
+        <CssBaseline />
+        <Appbar />
+      </React.Fragment>
+    );
+  }
+}
+
+const rootElement = document.getElementById("root");
+ReactDOM.render(<App />, rootElement);

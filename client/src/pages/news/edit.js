@@ -73,8 +73,6 @@ class EditorContainer extends Component{
 
   onChangeImage(e) {
     this.setState({image:e.target.files[0]});
-
-    console.log(this.state.image);
   }
 
   async onFormSubmit(e) {
@@ -90,8 +88,6 @@ class EditorContainer extends Component{
     formData.append('image', this.state.image);
 
     const news = await api.post(`/news`, formData, config);
-
-    console.log(news);
   }
 
   componentDidMount() {

@@ -1,14 +1,9 @@
 import React from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { isAuthenticated } from "./services/auth";
-import Login from './pages/login/index';
-import LogOut from './pages/logout/index';
+import Login from './pages/Login';
 import Dashboard from './pages/dashboard/index';
 import User from './pages/users/index';
-import News from './pages/news/index';
-import NewsEdit from './pages/news/edit';
-import File from './pages/files/index';
-import App from './App';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -24,20 +19,13 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 );
 
 const Routes = () => (
-  <BrowserRouter>
-    <Switch>
-      <PrivateRoute path="/dashboard" component={() => <App page={<Dashboard/>}/>} />
-      <PrivateRoute path="/usuarios" component={() => <App page={<User/>}/>} />
-      <PrivateRoute path="/usuarios/:id" component={() => <App page={<User/>}/>} />
-      <PrivateRoute path="/noticias" component={() => <App page={<News/>}/>} />
-      <PrivateRoute path="/noticia/:id?" component={() => <App page={<NewsEdit/>}/>} />
-      <PrivateRoute path="/arquivos" component={() => <App page={<File/>}/>} />
+  <Switch>
+    <PrivateRoute path="/dashboard" component={() => <Dashboard/>} />
+    <PrivateRoute path="/usuarios" component={() => <User/>} />
 
-      <Route exact path="/" component={() => <Login/>} />
-      <Route exact path="/logout" component={() => <LogOut/>} />
-      <Route path="*" component={() => <h1>Page not found</h1>} />
-    </Switch>
-  </BrowserRouter>
+    <Route exact path="/" component={() => <Login/>} />
+    <Route path="*" component={() => <h1>Page not found</h1>} />
+  </Switch>
 );
 
 export default Routes;

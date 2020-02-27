@@ -2,12 +2,11 @@
 import React, {Component} from 'react';
 import { withRouter } from "react-router-dom";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
-import api from "../../services/api";
-import { login } from "../../services/auth";
+import api from "../services/api";
+import { login } from "../services/auth";
 
 import styled from 'styled-components';
 
@@ -57,10 +56,6 @@ render() {
       <div>
         <MuiThemeProvider>
           <div>
-          <AppBar
-             title="Login"
-             style={{backgroundColor: '#3f51b5'}}
-          />
           <FormBox>
            <Form>
            <TextField

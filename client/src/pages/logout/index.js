@@ -6,8 +6,6 @@ import { logout } from "../../services/auth";
 
 class SignOut extends Component {
 
-
-
 handleSignOut () {
   logout();
 };
