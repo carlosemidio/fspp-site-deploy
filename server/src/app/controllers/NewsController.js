@@ -1,8 +1,6 @@
 const { News } = require('../models');
 
 const multer = require('multer');
-const path = require('path');
-
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -34,16 +32,18 @@ module.exports = {
   },
 
   async store(req, res) {
-    upload.single('image')(req, res, async () => { 
+    upload.single('image')(req, res, async () => {
       const { title, content } = req.body;
 
-      const image = req.file.filename;
-
       try {
-        const news = await News.create({ title, content, image });
+        const news = await News.create({ title, content });
+        if (req.file) {
+          news.image = req.file.filename;
+          await news.save({ fields: ['title', 'content', 'image'] });
+        }
         return res.json(news);
       } catch (err) {
-        return res.status(401).json({ err, title })
+          return res.status(401).json({ err, title })
       }
     });
   },
@@ -52,14 +52,17 @@ module.exports = {
     upload.single('image')(req, res, async () => { 
       const { title, content } = req.body;
 
-      const image = req.file.filename;
-
       try {
         const news = await News.findOne({ where: { id: req.params.id } });
         news.title = title;
         news.content = content;
-        news.image = image;
-        await news.save({ fields: ['title', 'content', 'image'] });
+        if (req.file) {
+          news.image = req.file.filename;
+          await news.save({ fields: ['title', 'content', 'image'] });
+        } else {
+          await news.save({ fields: ['title', 'content'] });
+        }
+        
         return res.json(news);
       } catch (err) {
           return res.status(401).json({ err, title })

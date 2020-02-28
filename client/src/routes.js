@@ -4,6 +4,8 @@ import { isAuthenticated } from "./services/auth";
 import Login from './pages/Login';
 import Dashboard from './pages/dashboard/index';
 import User from './pages/users/index';
+import News from './pages/news/index';
+import NewsItem from './pages/news/edit';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -20,10 +22,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 const Routes = () => (
   <Switch>
-    <PrivateRoute path="/dashboard" component={() => <Dashboard/>} />
-    <PrivateRoute path="/usuarios" component={() => <User/>} />
+    <PrivateRoute path="/dashboard" component={Dashboard} />
+    <PrivateRoute path="/usuarios" component={User} />
+    <PrivateRoute path="/noticias" component={News} />
+    <PrivateRoute path="/noticia/:id" component={NewsItem} />
 
-    <Route exact path="/" component={() => <Login/>} />
+    <Route exact path="/" component={Login} />
     <Route path="*" component={() => <h1>Page not found</h1>} />
   </Switch>
 );

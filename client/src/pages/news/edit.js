@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import { useParams } from "react-router-dom";
-import {EditorState, convertToRaw} from "draft-js";
+import {EditorState, convertToRaw, convertFromRaw} from "draft-js";
 import {Editor} from "react-draft-wysiwyg";
 import {
   Card,
@@ -59,7 +58,9 @@ class EditorContainer extends Component{
       title: '',
       content: null,
       image: null,
-      editorState: EditorState.createEmpty(),
+      loading: true,
+      error: null,
+      editorState: null,
     };
 
     this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -84,31 +85,73 @@ class EditorContainer extends Component{
 
     const formData = new FormData();
     formData.append('title', this.state.title);
-    formData.append('content', JSON.stringify(this.state.content));
-    formData.append('image', this.state.image);
+    formData.append('content', JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())));
+    if (this.state.image !== null) {
+      formData.append('image', this.state.image);
+    }
 
-    const news = await api.post(`/news`, formData, config);
+    const { id } = this.props.match.params;
+
+    if (!id) {
+      api.post(`/news`, formData, config).then(res => {
+        const news = res.data;
+        console.log(news);
+      }).catch(err => {
+        console.log(err);
+      });
+    } else {
+      api.put(`/news/${id}`, formData, config).then(res => {
+        const news = res.data;
+        console.log(news);
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+  }
+
+  async getNews(id) {
+    api.get(`/news/${id}`)
+    .then(res => {
+      const news = res.data;
+      if (news) {
+        this.setState({ loading: false, 
+          title: news.title, 
+          image: news.image,
+          editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(news.content)))
+        });
+      } else {
+        this.setState({ loading: false, 
+          editorState: EditorState.createEmpty()
+        });
+      }
+    })
   }
 
   componentDidMount() {
+    const { id } = this.props.match.params;
+    if (id !== 'new') {
+      this.getNews(id);
+    } else {
+      this.setState({ 
+        editorState: EditorState.createEmpty()
+      });
+    }
   }
 
   onEditorStateChange = (editorState) => {
-    const contentState = editorState.getCurrentContent();
     this.setState({
-      content: convertToRaw(contentState),
       editorState,
     });
+
   };
 
   render(){
-    const { editorState } = this.state;
     return <div className='editor'>
       <Card className={styles.card}>
         <CardContent className={styles.cardContent}>
-          <TextField label='Título' fullWidth onChange={this.onChange} />
+          <TextField label='Título' fullWidth onChange={this.onChange} value={this.state.title} />
           <Editor
-            editorState={editorState}
+            editorState={this.state.editorState}
             onEditorStateChange={this.onEditorStateChange}    
             toolbar={{
               inline: { inDropdown: true },
@@ -136,7 +179,7 @@ class EditorContainer extends Component{
             }}
           />
 
-          <PhotoInput label='Foto do card' onChange={this.onChangeImage} />
+          <PhotoInput label='Foto do card' onChange={this.onChangeImage} value={this.state.image} />
 
         </CardContent>
         <CardActions>

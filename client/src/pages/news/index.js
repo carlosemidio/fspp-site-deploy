@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { withRouter, Route, Redirect, Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import {
   withStyles,
   Typography,
@@ -14,7 +14,7 @@ import {
   ListItemSecondaryAction,
 } from '@material-ui/core';
 import { Delete as DeleteIcon, Add as AddIcon } from '@material-ui/icons';
-import { find, orderBy } from 'lodash';
+import { orderBy } from 'lodash';
 import { compose } from 'recompose';
 import moment from 'moment';
 
@@ -76,7 +76,7 @@ class NewsManager extends Component {
                 // <NewsItem news={news} onDelete={this.deleteNews} key={news.id}/>
                 <ListItem key={news.id} button component={Link} to={`/noticia/${news.id}`}>
                   <ListItemAvatar>
-                    <Avatar alt={news.title} src={'http://localhost:5000/uploads/news/'+news.image} />
+                    <Avatar alt={news.title} src={news.image && ('http://localhost:5000/uploads/news/'+news.image)} />
                   </ListItemAvatar>
                   <ListItemText
                     primary={news.title}

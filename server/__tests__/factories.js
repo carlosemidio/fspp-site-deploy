@@ -11,7 +11,7 @@ factory.define('User', User, {
 factory.define('News', News, {
   title:  faker.lorem.sentence(),
   content: faker.lorem.text(),
-  image: faker.image.imageUrl()
+  image: faker.image.imageURL()
 });
 
 module.exports = factory;

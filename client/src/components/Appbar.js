@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import clsx from 'clsx';
-import { Router, Route, Link, Redirect } from "react-router-dom";
+import { Router, Link } from "react-router-dom";
 import { createBrowserHistory } from "history";
 
 import { withStyles } from '@material-ui/core/styles';
@@ -9,7 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
+import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -39,21 +39,11 @@ const styles = theme => ({
   toolbarMargin: theme.mixins.toolbar,
   aboveDrawer: {
     zIndex: theme.zIndex.drawer + 1
+  },
+  active: {
+    backgroundColor: theme.palette.action.selected
   }
 });
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      isAuthenticated() ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={{ pathname: "/", state: { from: props.location } }} />
-      )
-    }
-  />
-);
 
 const MyToolbar = withStyles(styles)(
   ({ classes, title, onMenuClick }) => (
@@ -84,7 +74,7 @@ const MyToolbar = withStyles(styles)(
 );
 
 const MyDrawer = withStyles(styles)(
-  ({ classes, variant, open, onClose, onItemClick }) => (
+  ({ classes, variant, open, onClose, onItemClick, selected }) => (
     <Router history={history}>
       <Drawer 
         variant={variant} 
@@ -100,15 +90,18 @@ const MyDrawer = withStyles(styles)(
           })}
         />
         <List>
-          <ListItem button component={Link} to="/" onClick={onItemClick('Home', '/')}>
+          <MenuItem button component={Link} to="/" onClick={onItemClick('Home', 0)} selected={selected === 0}>
             <ListItemText>Home</ListItemText>
-          </ListItem>
-          <ListItem button component={Link} to="/dashboard" onClick={onItemClick('Dashboard', '/dashboard')}>
+          </MenuItem>
+          <MenuItem button component={Link} to="/dashboard" onClick={onItemClick('Dashboard', 1)} selected={selected === 1}>
             <ListItemText>Dashboard</ListItemText>
-          </ListItem>
-          <ListItem button component={Link} to="/usuarios" onClick={onItemClick('Usuários', 'usuarios')}>
+          </MenuItem>
+          <MenuItem button component={Link} to="/usuarios" onClick={onItemClick('Usuários', 2)} selected={selected === 2}>
             <ListItemText>Usuários</ListItemText>
-          </ListItem>
+          </MenuItem>
+          <MenuItem button component={Link} to="/noticias" onClick={onItemClick('Notícias', 3)} selected={selected === 3}>
+            <ListItemText>Notícias</ListItemText>
+          </MenuItem>
         </List>
       </Drawer>
       <main className={classes.content}>
@@ -121,6 +114,7 @@ const MyDrawer = withStyles(styles)(
 function AppBarInteraction({ classes, variant }) {
   const [drawer, setDrawer] = useState(false);
   const [title, setTitle] = useState('Home');
+  const [selected, setSelected] = useState(0);
 
   const toggleDrawer = () => {
     if (isAuthenticated()) {
@@ -128,8 +122,9 @@ function AppBarInteraction({ classes, variant }) {
     }
   };
 
-  const onItemClick = (title, url) => () => {
+  const onItemClick = (title, selected) => () => {
     setTitle(title);
+    setSelected(selected);
     setDrawer(variant === 'temporary' ? false : drawer);
     setDrawer(!drawer);
   };
@@ -142,6 +137,7 @@ function AppBarInteraction({ classes, variant }) {
         onClose={toggleDrawer}
         onItemClick={onItemClick}
         variant={variant}
+        selected={selected}
       />
     </div>
   );
