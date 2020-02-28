@@ -65,7 +65,7 @@ module.exports = {
         
         return res.json(news);
       } catch (err) {
-          return res.status(401).json({ err, title })
+          return res.status(200).json({ err, title })
       }
     });
   },

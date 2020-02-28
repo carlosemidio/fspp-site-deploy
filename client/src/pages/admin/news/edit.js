@@ -8,9 +8,9 @@ import {
   Button,
   TextField,
 } from '@material-ui/core';
-import api from "../../services/api";
+import api from "../../../services/api";
 import './styles.css';
-import PhotoInput from '../../components/PhotoInput';
+import PhotoInput from '../../../components/PhotoInput';
 
 const styles = theme => ({
   card: {

@@ -16,9 +16,9 @@ import { find, orderBy } from 'lodash';
 import { compose } from 'recompose';
 import moment from 'moment';
 
-import UserEditor from '../../components/UserEditor';
-import ErrorSnackbar from '../../components/ErrorSnackbar';
-import api from "../../services/api";
+import UserEditor from '../../../components/UserEditor';
+import ErrorSnackbar from '../../../components/ErrorSnackbar';
+import api from "../../../services/api";
 
 const styles = theme => ({
   users: {

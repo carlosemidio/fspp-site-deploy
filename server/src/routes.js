@@ -20,16 +20,20 @@ routes.post('/sessions', SessionController.store);
 
 routes.use('/uploads', express.static('uploads'));
 
-routes.use(authMiddleware);
-
+// Public routes
 routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.view);
+
+routes.get('/news', NewsController.index);
+routes.get('/news/:id', NewsController.view);
+
+routes.use(authMiddleware);
+
+// Private routes
 routes.post('/users', UserController.store);
 routes.put('/users/:id', UserController.update);
 routes.delete('/users/:id', UserController.destroy);
 
-routes.get('/news', NewsController.index);
-routes.get('/news/:id', NewsController.view);
 routes.post('/news', NewsController.store);
 routes.put('/news/:id', NewsController.update);
 routes.delete('/news/:id', NewsController.destroy);

@@ -14,6 +14,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import ListSubheader from '@material-ui/core/ListSubheader';
 
 import { isAuthenticated, logout } from "../services/auth";
 import Routes from '../routes';
@@ -93,16 +95,24 @@ const MyDrawer = withStyles(styles)(
           <MenuItem button component={Link} to="/" onClick={onItemClick('Home', 0)} selected={selected === 0}>
             <ListItemText>Home</ListItemText>
           </MenuItem>
-          <MenuItem button component={Link} to="/dashboard" onClick={onItemClick('Dashboard', 1)} selected={selected === 1}>
-            <ListItemText>Dashboard</ListItemText>
-          </MenuItem>
-          <MenuItem button component={Link} to="/usuarios" onClick={onItemClick('Usuários', 2)} selected={selected === 2}>
-            <ListItemText>Usuários</ListItemText>
-          </MenuItem>
-          <MenuItem button component={Link} to="/noticias" onClick={onItemClick('Notícias', 3)} selected={selected === 3}>
+          <MenuItem button component={Link} to="/noticias" onClick={onItemClick('Notícias', 1)} selected={selected === 1}>
             <ListItemText>Notícias</ListItemText>
           </MenuItem>
         </List>
+        {isAuthenticated() && 
+          (<><Divider />
+          <ListSubheader>Sistema</ListSubheader>
+          <List>
+            <MenuItem button component={Link} to="/admin/dashboard" onClick={onItemClick('Dashboard', 2)} selected={selected === 2}>
+              <ListItemText>Dashboard</ListItemText>
+            </MenuItem>
+            <MenuItem button component={Link} to="/admin/usuarios" onClick={onItemClick('Usuários', 3)} selected={selected === 3}>
+              <ListItemText>Usuários</ListItemText>
+            </MenuItem>
+            <MenuItem button component={Link} to="/admin/noticias" onClick={onItemClick('Notícias', 4)} selected={selected === 4}>
+              <ListItemText>Notícias</ListItemText>
+            </MenuItem>
+          </List></>)}
       </Drawer>
       <main className={classes.content}>
         <Routes />
@@ -117,9 +127,7 @@ function AppBarInteraction({ classes, variant }) {
   const [selected, setSelected] = useState(0);
 
   const toggleDrawer = () => {
-    if (isAuthenticated()) {
-      setDrawer(!drawer);  
-    }
+    setDrawer(!drawer);  
   };
 
   const onItemClick = (title, selected) => () => {
