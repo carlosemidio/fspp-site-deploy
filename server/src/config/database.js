@@ -9,7 +9,6 @@ module.exports = {
     database: process.env.DB_NAME,
     dialect:  process.env.DB_DIALECT || 'mariadb',
     dialectOptions: {
-      charset: 'utf8',
       collate: 'utf8mb4_general_ci',
     },
     storage: './__tests__/database.sqlite',
