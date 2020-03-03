@@ -10,6 +10,8 @@ services:
             - "3000:3000"
         volumes:
             - ./client:/usr/src/app
+        links:
+          - backend
     backend:
         container_name: backend
         build:
