@@ -13,10 +13,13 @@ import ListSubheader from '@material-ui/core/ListSubheader'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import InboxIcon from '@material-ui/icons/MoveToInbox'
-import MailIcon from '@material-ui/icons/Mail'
+import DashboardIcon from '@material-ui/icons/Dashboard'
+import PeopleIcon from '@material-ui/icons/People'
+import AnnouncementIcon from '@material-ui/icons/Announcement'
+import MenuItem from '@material-ui/core/MenuItem'
 import Typography from '@material-ui/core/Typography'
 import Link from 'next/link'
-import { logout } from '../services/auth'
+import { logout, isAuthenticated } from '../services/auth'
 
 
 const drawerWidth = 240;
@@ -64,7 +67,7 @@ const MyToolbar = ({ classes, title, onMenuClick }) => (
           >
             {title}
           </Typography>
-          {<Button color="inherit" onClick={() => logout()}>Logout</Button>}
+          {isAuthenticated() && <Button color="inherit" onClick={() => logout()}>Logout</Button>}
         </Toolbar>
       </AppBar>
       <div className={classes.toolbarMargin} />
@@ -96,21 +99,38 @@ export default function Layout({ children, title = 'Home' }) {
       <List>
         <Link href="/noticias">
           <ListItem button key="news">
-            <ListItemIcon><InboxIcon /></ListItemIcon>
+            <ListItemIcon><AnnouncementIcon /></ListItemIcon>
             <ListItemText primary="Notícias" />
           </ListItem>
         </Link>
       </List>
-      <Divider />
-      <ListSubheader>Sistema</ListSubheader>
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+      {isAuthenticated() && 
+          (<><Divider />
+          <ListSubheader>Sistema</ListSubheader>
+          <List>
+            <Link href="/admin/dashboard">
+              <MenuItem button>
+                <ListItemIcon><DashboardIcon /></ListItemIcon>
+                <ListItemText>Dashboard</ListItemText>
+              </MenuItem>
+            </Link>
+            <Link href="/admin/usuarios">
+              <MenuItem button>
+                <ListItemIcon>
+                  <PeopleIcon />
+                </ListItemIcon>
+                <ListItemText>Usuários</ListItemText>
+              </MenuItem>
+            </Link>
+            <Link href="/admin/noticias">
+              <MenuItem button>
+                <ListItemIcon>
+                  <AnnouncementIcon />
+                </ListItemIcon>
+                <ListItemText>Notícias</ListItemText>
+              </MenuItem>
+            </Link>
+          </List></>)}
     </div>
   );
 

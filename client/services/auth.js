@@ -3,18 +3,20 @@ import Router from 'next/router'
 import nextCookie from 'next-cookies'
 import cookie from 'js-cookie'
 
+export const isAuthenticated = () => ((cookie.get("token") !== null) && (cookie.get("token") !== undefined))
+
 export const login = token => {
-  cookie.set("token", token, { expires: 1 });
-};
+  cookie.set("token", token, { expires: 1 })
+}
 
 export const logout = () => {
-  cookie.remove("token");
+  cookie.remove("token")
   // To trigger the event listener we save some random data into the `logout` key
-  window.localStorage.setItem("logout", Date.now()); // new
-  Router.push("/login");
-};
+  window.localStorage.setItem("logout", Date.now()) // new
+  Router.push("/login")
+}
 
-export const getToken = () => cookie.get("token");
+export const getToken = () => cookie.get("token")
 
 export const auth = ctx => {
   const { token } = nextCookie(ctx)

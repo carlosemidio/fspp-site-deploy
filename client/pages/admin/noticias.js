@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Users() {
+function News() {
   const classes = useStyles();
 
   return (
@@ -37,7 +37,7 @@ function Users() {
         <div className='editor'>
           <Card className={classes.card}>
             <CardContent className={classes.cardContent}>
-              <h1>Usuários</h1>
+              <h1>Notícias</h1>
             </CardContent>
           </Card>
         </div>
@@ -46,4 +46,4 @@ function Users() {
   );
 }
 
-export default withAuthSync(Users);
+export default withAuthSync(News);
