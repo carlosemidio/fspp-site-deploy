@@ -33,7 +33,7 @@ function Dashboard() {
   return (
     <>
       <CssBaseline />
-      <Layout>
+      <Layout title="Dashboard">
         <div className='editor'>
           <Card className={classes.card}>
             <CardContent className={classes.cardContent}>

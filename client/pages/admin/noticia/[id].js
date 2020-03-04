@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {EditorState, convertToRaw, convertFromRaw} from "draft-js";
+import React, {Component} from 'react'
+import {EditorState, convertToRaw, convertFromRaw} from "draft-js"
 import dynamic from 'next/dynamic'
 const Editor = dynamic(
   () => import('react-draft-wysiwyg').then(mod => mod.Editor),
@@ -11,11 +11,12 @@ import {
   CardActions,
   Button,
   TextField,
-} from '@material-ui/core';
-import api from "../../../services/api";
-import PhotoInput from '../../../components/PhotoInput';
+} from '@material-ui/core'
+import api from "../../../services/api"
+import PhotoInput from '../../../components/PhotoInput'
 import Layout from '../../../components/Layout'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import { withAuthSync } from '../../../services/auth'
 
 const styles = theme => ({
   card: {
@@ -31,7 +32,7 @@ const styles = theme => ({
   marginTop: {
     marginTop: theme.spacing(2),
   },
-});
+})
 
 
 function uploadImageCallBack(file) {
@@ -42,17 +43,17 @@ function uploadImageCallBack(file) {
           'Accept': '',
           'Content-Type': 'multipart/form-data'
         }
-      };
+      }
   
-      const formData = new FormData();
-      formData.append('image', file);
+      const formData = new FormData()
+      formData.append('image', file)
   
       api.post(`/image`, formData, config).then(res => {
-        const data = res.data;
-        resolve({ data: { link: ("http://127.0.0.1:5000/uploads/editor/"+data) } });
+        const data = res.data
+        resolve({ data: { link: ("http://127.0.0.1:5000/uploads/editor/"+data) } })
       })
     }
-  );
+  )
 }
 
 
@@ -64,7 +65,7 @@ class EditorContainer extends Component{
   }
 
   constructor(props){
-    super(props);
+    super(props)
     this.state = {
       title: '',
       content: null,
@@ -72,19 +73,19 @@ class EditorContainer extends Component{
       loading: true,
       error: null,
       editorState: null,
-    };
+    }
 
-    this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onChangeImage = this.onChangeImage.bind(this);
+    this.onFormSubmit = this.onFormSubmit.bind(this)
+    this.onChange = this.onChange.bind(this)
+    this.onChangeImage = this.onChangeImage.bind(this)
   }
 
   onChange(e) {
-    this.setState({title:e.target.value});
+    this.setState({title:e.target.value})
   }
 
   onChangeImage(e) {
-    this.setState({image:e.target.files[0]});
+    this.setState({image:e.target.files[0]})
   }
 
   async onFormSubmit(e) {
@@ -94,66 +95,64 @@ class EditorContainer extends Component{
       }
     }
 
-    const formData = new FormData();
-    formData.append('title', this.state.title);
-    formData.append('content', JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())));
+    const formData = new FormData()
+    formData.append('title', this.state.title)
+    formData.append('content', JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())))
     if (this.state.image !== null) {
-      formData.append('image', this.state.image);
+      formData.append('image', this.state.image)
     }
 
-    const { id } = this.props.newId;
+    const id = this.props.newId
 
-    if (!id) {
+    if (id === 'new') {
       api.post(`/news`, formData, config).then(res => {
-        const news = res.data;
-        console.log(news);
+        const news = res.data
       }).catch(err => {
-        console.log(err);
-      });
+        console.log(err)
+      })
     } else {
       api.put(`/news/${id}`, formData, config).then(res => {
-        const news = res.data;
-        console.log(news);
+        const news = res.data
       }).catch(err => {
-        console.log(err);
-      });
+        console.log(err)
+      })
     }
   }
 
   async getNews(id) {
     api.get(`/news/${id}`)
     .then(res => {
-      const news = res.data;
+      const news = res.data
       if (news) {
         this.setState({ loading: false, 
           title: news.title, 
           image: news.image,
           editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(news.content)))
-        });
+        })
       } else {
         this.setState({ loading: false, 
           editorState: EditorState.createEmpty()
-        });
+        })
       }
     })
   }
 
   componentDidMount() {
-    const id = this.props.newId;
+    const id = this.props.newId
     if (id !== 'new') {
-      this.getNews(id);
+      this.getNews(id)
     } else {
       this.setState({ 
         editorState: EditorState.createEmpty()
-      });
+      })
     }
   }
 
   onEditorStateChange = (editorState) => {
     this.setState({
       editorState,
-    });
-  };
+    })
+  }
 
   render(){
     return (
@@ -208,4 +207,4 @@ class EditorContainer extends Component{
   }
 }
 
-export default EditorContainer;
+export default withAuthSync(EditorContainer)
