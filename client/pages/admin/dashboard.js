@@ -1,8 +1,5 @@
-import React from 'react'
-import fetch from 'isomorphic-unfetch'
-import { EditorState, convertFromRaw, convertToRaw } from "draft-js"
-import draftToHtml from 'draftjs-to-html'
-import convert from 'htmr'
+import React from "react"
+import { withAuthSync } from '../../services/auth'
 import {
   Card,
   CardContent,
@@ -30,8 +27,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const EditorContainer = props => {
-  const editorState = (props.news !== null) ? EditorState.createWithContent(convertFromRaw(JSON.parse(props.news.content))) : null;
+function Dashboard() {
   const classes = useStyles();
 
   return (
@@ -41,8 +37,7 @@ const EditorContainer = props => {
         <div className='editor'>
           <Card className={classes.card}>
             <CardContent className={classes.cardContent}>
-            <h1>{props.news && props.news.title}</h1>
-            {editorState && convert(draftToHtml(convertToRaw(editorState.getCurrentContent())))}
+              <h1>Welcome</h1>
             </CardContent>
           </Card>
         </div>
@@ -51,11 +46,4 @@ const EditorContainer = props => {
   );
 }
 
-EditorContainer.getInitialProps = async ({ query }) => {
-  const res = await fetch(`http://127.0.0.1:5000/news/${query.id}`);
-  const data = await res.json();
-
-  return { news: data };
-};
-
-export default EditorContainer;
+export default withAuthSync(Dashboard);

@@ -27,7 +27,7 @@ routes.get('/users/:id', UserController.view);
 routes.get('/news', NewsController.index);
 routes.get('/news/:id', NewsController.view);
 
-routes.use(authMiddleware);
+// routes.use(authMiddleware);
 
 // Private routes
 routes.post('/users', UserController.store);

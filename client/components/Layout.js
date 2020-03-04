@@ -1,21 +1,23 @@
-import React, { Fragment } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import Typography from '@material-ui/core/Typography';
-import Link from 'next/link';
+import React, { Fragment } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import IconButton from '@material-ui/core/IconButton'
+import MenuIcon from '@material-ui/icons/Menu'
+import Button from '@material-ui/core/Button'
+import List from '@material-ui/core/List'
+import Divider from '@material-ui/core/Divider'
+import ListItem from '@material-ui/core/ListItem'
+import ListSubheader from '@material-ui/core/ListSubheader'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import InboxIcon from '@material-ui/icons/MoveToInbox'
+import MailIcon from '@material-ui/icons/Mail'
+import Typography from '@material-ui/core/Typography'
+import Link from 'next/link'
+import { logout } from '../services/auth'
+
 
 const drawerWidth = 240;
 
@@ -62,7 +64,7 @@ const MyToolbar = ({ classes, title, onMenuClick }) => (
           >
             {title}
           </Typography>
-          {<Button color="inherit">Logout</Button>}
+          {<Button color="inherit" onClick={() => logout()}>Logout</Button>}
         </Toolbar>
       </AppBar>
       <div className={classes.toolbarMargin} />
