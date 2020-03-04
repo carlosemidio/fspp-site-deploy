@@ -1,6 +1,8 @@
 import NextApp from 'next/app'
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
+import './styles.css';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 const theme = {
   primary: 'green',
 }

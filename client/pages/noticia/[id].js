@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const EditorContainer = props => {
-  const editorState = (props.news !== null) ? EditorState.createWithContent(convertFromRaw(JSON.parse(props.news.content))) : null;
+  const editorState = (props.news.content !== null && props.news.content !== undefined) ? EditorState.createWithContent(convertFromRaw(JSON.parse(props.news.content))) : EditorState.createEmpty();
   const classes = useStyles();
 
   return (
