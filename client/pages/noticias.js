@@ -56,14 +56,10 @@ function NewsList ({ news }) {
         <Paper elevation={1} className={classes.newsBox}>
           <List className={classes.newsList}>
             {orderBy(news, ['updatedAt', 'title'], ['desc', 'asc']).map(item => (
-              <>
-                <Link as={`/noticia/${item.id}`} href={{pathname: '/noticia', query: {id: item.id}}}>
-                  <a style={{textDecoration: 'none'}}>
-                    <NewsCard news={item} />
-                  </a>
-                </Link>
+              <div key={item.id}>
+                <NewsCard news={item} />
                 <Divider className={classes.listDivider} />
-              </>
+              </div>
             ))}
           </List>
         </Paper>

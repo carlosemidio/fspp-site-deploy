@@ -52,8 +52,8 @@ function NewsCard({news, onDelete = null}) {
     <Card className={classes.root}>
       <div className={classes.details}>
         <Link 
-          as={`/admin/noticia/${news.id}`} 
-          href={{pathname: '/admin/noticia', query: {id: news.id}}}
+          as={(onDelete !== null) ? `/admin/noticia/${news.id}`: `/noticia/${news.id}`} 
+          href={{pathname: (onDelete !== null) ? '/admin/noticia': 'noticia', query: {id: news.id}}}
           >
           <a style={{textDecoration: 'none'}}>
             <div className={classes.details}>

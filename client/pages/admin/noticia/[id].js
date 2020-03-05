@@ -158,7 +158,7 @@ class EditorContainer extends Component{
     return (
       <>
         <CssBaseline />
-        <Layout>
+        <Layout title={(this.props.newId !== 'new') ? (`Editar: ${this.state.title}`):(`Adicionar notícia: ${this.state.title}`)}>
           <div className='editor'>
             <Card className={styles.card}>
               <CardContent className={styles.cardContent}>

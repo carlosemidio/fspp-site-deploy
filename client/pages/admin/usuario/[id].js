@@ -78,7 +78,7 @@ const UserEdit = (props) => {
   return (
     <>
       <CssBaseline />
-      <Layout>
+      <Layout title={(props.user !== null) ? (`Editar usuário: ${name}`):(`Adicionar usuário: ${name}`)}>
         <div className={classes.root}>
           <Card>
             <CardContent>

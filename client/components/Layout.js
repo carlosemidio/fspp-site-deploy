@@ -67,7 +67,7 @@ const MyToolbar = ({ classes, title, onMenuClick }) => (
           >
             {title}
           </Typography>
-          {/* {isAuthenticated() && <Button color="inherit" onClick={() => logout()}>Logout</Button>} */}
+          {(isAuthenticated() === true) && <Button color="inherit" onClick={() => logout()}>Logout</Button>}
         </Toolbar>
       </AppBar>
       <div className={classes.toolbarMargin} />
