@@ -3,19 +3,19 @@ require('dotenv').config({
 });
 
 module.exports = {
-    host:     process.env.DB_HOST,
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    dialect:  process.env.DB_DIALECT || 'mariadb',
-    dialectOptions: {
-      collate: 'utf8mb4_general_ci',
-    },
-    storage: './__tests__/database.sqlite',
-    operatorsAliases: 1,
-    logging: false,
-    define: {
-        timestamps: true,
-        underscored: true,
-    },
+  host:     process.env.DB_HOST,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  dialect:  process.env.DB_DIALECT || 'postgres',
+  dialectOptions: {
+    collate: 'utf8mb4_general_ci',
+  },
+  storage: './__tests__/database.sqlite',
+  operatorsAliases: 1,
+  logging: false,
+  define: {
+    timestamps: true,
+    underscored: true,
+  },
 };
