@@ -1,17 +1,21 @@
 version: "3"
 services:
-    frontend:
-        container_name: frontend
-        build:
-            context: ./client
-            dockerfile: Dockerfile
-        image: carlosep/frontend
+    database:
+      image: mariadb:latest
+      ports:
+          - 3306:3306
+      environment:
+          MYSQL_DATABASE: base_db
+          MYSQL_USER: base_user
+          MYSQL_PASSWORD: base@2020
+          MYSQL_ROOT_PASSWORD: admin@base
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
         ports:
-            - "3000:3000"
-        volumes:
-            - ./client:/usr/src/app
+            - "8080:80"
         links:
-          - backend
+            - "database:db"  
+
     backend:
         container_name: backend
         build:
@@ -24,18 +28,17 @@ services:
             - ./server:/usr/src/app
         links:
             - database
-    database:
-        image: mariadb:latest
-        ports:
-            - 3306:3306
-        environment:
-            MYSQL_DATABASE: base_db
-            MYSQL_USER: base_user
-            MYSQL_PASSWORD: base@2020
-            MYSQL_ROOT_PASSWORD: admin@base
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        ports:
-            - "8080:80"
-        links:
-            - "database:db"
+
+    # Frontend setup
+    frontend:
+      container_name: frontend
+      build:
+          context: ./client
+          dockerfile: Dockerfile
+      image: carlosep/frontend
+      ports:
+          - "3000:3000"
+      volumes:
+          - ./client:/usr/src/app
+      links:
+        - backend

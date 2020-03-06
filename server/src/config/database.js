@@ -7,12 +7,13 @@ module.exports = {
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
-  dialect:  process.env.DB_DIALECT || 'postgres',
+  dialect:  process.env.DB_DIALECT || 'mariadb',
+  port: process.env.DB_PORT,
   dialectOptions: {
     collate: 'utf8mb4_general_ci',
   },
   storage: './__tests__/database.sqlite',
-  operatorsAliases: 1,
+  operatorsAliases: true,
   logging: false,
   define: {
     timestamps: true,
