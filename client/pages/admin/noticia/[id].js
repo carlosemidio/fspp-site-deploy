@@ -50,7 +50,7 @@ function uploadImageCallBack(file) {
   
       api.post(`/image`, formData, config).then(res => {
         const data = res.data
-        resolve({ data: { link: ("http://127.0.0.1:5000/uploads/editor/"+data) } })
+        resolve({ data: { link: (api.defaults.baseURL+"/uploads/editor/"+data) } })
       })
     }
   )

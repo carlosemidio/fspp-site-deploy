@@ -9,6 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import moment from 'moment'
+import api from '../services/api'
 require('moment/locale/pt.js')
 
 const useStyles = makeStyles(theme => ({
@@ -59,7 +60,7 @@ function NewsCard({news, onDelete = null}) {
             <div className={classes.details}>
               <CardMedia
                 className={classes.cover}
-                image={`http://localhost:5000/uploads/news/${news.image}`}
+                image={`${api.defaults.baseURL}/uploads/news/${news.image}`}
                 title={news.title}
               />
               <CardContent className={classes.content}>
