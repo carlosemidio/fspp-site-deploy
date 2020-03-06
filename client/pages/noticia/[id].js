@@ -1,5 +1,4 @@
 import React from 'react'
-import fetch from 'isomorphic-unfetch'
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js"
 import draftToHtml from 'draftjs-to-html'
 import convert from 'htmr'
@@ -10,6 +9,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import Layout from '../../components/Layout'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import api from '../../services/api'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -52,8 +52,8 @@ const EditorContainer = props => {
 }
 
 EditorContainer.getInitialProps = async ({ query }) => {
-  const res = await fetch(`http://127.0.0.1:5000/news/${query.id}`);
-  const data = await res.json();
+  const res = await api.get(`news/${query.id}`);
+  const data = res.data
 
   return { news: data };
 };

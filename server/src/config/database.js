@@ -8,7 +8,6 @@ module.exports = {
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   dialect:  process.env.DB_DIALECT || 'mariadb',
-  port: process.env.DB_PORT,
   dialectOptions: {
     collate: 'utf8mb4_general_ci',
   },

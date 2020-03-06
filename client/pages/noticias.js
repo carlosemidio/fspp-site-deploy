@@ -1,16 +1,15 @@
-import Link from 'next/link';
-import fetch from 'isomorphic-unfetch';
-import Layout from '../components/Layout';
-import React, { Fragment } from 'react';
+import Layout from '../components/Layout'
+import React, { Fragment } from 'react'
 import {
   Paper,
   List,
   Divider,
   makeStyles,
-} from '@material-ui/core';
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { orderBy } from 'lodash';
-import NewsCard from '../components/NewsCard';
+} from '@material-ui/core'
+import CssBaseline from "@material-ui/core/CssBaseline"
+import { orderBy } from 'lodash'
+import NewsCard from '../components/NewsCard'
+import api from '../services/api'
 
 const useStyles = makeStyles(theme => ({
   newsBox: {
@@ -43,11 +42,11 @@ const useStyles = makeStyles(theme => ({
       right: theme.spacing(2),
     },
   },
-}));
+}))
 
 function NewsList ({ news }) {
 
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <Fragment>
@@ -65,14 +64,14 @@ function NewsList ({ news }) {
         </Paper>
       </Layout>
     </Fragment>
-  );
+  )
 }
 
 NewsList.getInitialProps = async function() {
-  const res = await fetch('http://127.0.0.1:5000/news');
-  const data = await res.json();
+  const res = await api.get('news')
+  const data = await res.data
 
-  return { news: data };
-};
+  return { news: data }
+}
 
-export default NewsList;
+export default NewsList

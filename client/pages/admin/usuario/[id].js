@@ -141,8 +141,8 @@ const UserEdit = (props) => {
 
 UserEdit.getInitialProps = async ({ query }) => {
   if (query.id !== 'new') {
-    const res = await fetch(`http://127.0.0.1:5000/users/${query.id}`)
-    const data = await res.json()
+    const res = await api.get(`users/${query.id}`)
+    const data = await res.data
 
     return { user: data }
   }
