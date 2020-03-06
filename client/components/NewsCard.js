@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     boxShadow: 'none',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     width: '100%',
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
@@ -50,19 +50,20 @@ function NewsCard({news, onDelete = null}) {
   const classes = useStyles()
 
   return (
-    <Card className={classes.root}>
-      <div className={classes.details}>
-        <Link 
-          as={(onDelete !== null) ? `/admin/noticia/${news.id}`: `/noticia/${news.id}`} 
-          href={{pathname: (onDelete !== null) ? '/admin/noticia': 'noticia', query: {id: news.id}}}
-          >
-          <a style={{textDecoration: 'none'}}>
+    <Card>
+      <Link 
+        as={(onDelete !== null) ? `/admin/noticia/${news.id}`: `/noticia/${news.id}`} 
+        href={{pathname: (onDelete !== null) ? '/admin/noticia': 'noticia', query: {id: news.id}}}
+        >
+        <a style={{textDecoration: 'none'}}>
+          <div className={classes.root}>
+            <CardMedia
+              className={classes.cover}
+              image={`${api.defaults.baseURL}/uploads/news/${news.image}`}
+              title={news.title}
+            />
+            
             <div className={classes.details}>
-              <CardMedia
-                className={classes.cover}
-                image={`${api.defaults.baseURL}/uploads/news/${news.image}`}
-                title={news.title}
-              />
               <CardContent className={classes.content}>
                 <div>
                   <Typography component="h6" variant="h6">
@@ -77,9 +78,9 @@ function NewsCard({news, onDelete = null}) {
                 </Typography>
               </CardContent>
             </div>
-          </a>
-        </Link>
-      </div>
+          </div>
+        </a>
+      </Link>
       {(onDelete !== null) &&
         <CardAction className={classes.actions}>
           <IconButton onClick={onDelete} aria-label={`Deletar ${news.title}`} component="span">
@@ -87,7 +88,7 @@ function NewsCard({news, onDelete = null}) {
           </IconButton>  
         </CardAction>
       }
-    </Card>  
+    </Card>    
   )
 }
 
